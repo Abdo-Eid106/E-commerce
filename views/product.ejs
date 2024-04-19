@@ -1,0 +1,161 @@
+<main class="main">
+  <section class="mt-150 mb-50">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="product-detail accordion-detail">
+            <div class="row mb-50">
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="detail-gallery">
+                  <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                  <!-- MAIN SLIDES -->
+                  <div class="product-image-slider">
+                    <figure class="border-radius-10">
+                      <img src="<%= product.photos[0] %>" alt="product image">
+                    </figure>
+                  </div>
+                </div>
+                <!-- End Gallery -->
+              </div>
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="detail-info">
+                  <h2 class="title-detail"><%= product.name %></h2>
+                  <div class="product-detail-rating">
+                    <% if (product.brandName) { %>
+                    <div class="pro-details-brand">
+                      <span> Brands: <a href="shop.html"><%= product.brandName %></a></span>
+                    </div>
+                    <% } %>
+                    <div class="product-rate-cover text-end">
+                      <div class="product-rate d-inline-block">
+                        <div class="product-rating" style="width:<%= product.rate / 5 * 100 %>%">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix product-price-cover">
+                    <div class="product-price primary-color float-left">
+                      <ins><span class="text-brand">$<%= product.price - product.price * product.sale %></span></ins>
+                      <% if (product.sale) { %>
+                      <ins><span class=" old-price font-md ml-15">$200.00</span></ins>
+                      <span class="save-price  font-md color3 ml-15">25% Off</span>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+                  <div class="short-desc mb-30">
+                    <p><%= product.description %></p>
+                  </div>
+                  <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                  <div class="detail-extralink">
+                    <div class="product-extra-link2 d-flex">
+                      <% if (!inCart) { %>
+                      <form action="/products/<%= product.id %>/cart" method="POST">
+                        <button type="submit" class="button button-add-to-cart mb-3 hover-up">Add to
+                          cart</button>
+                      </form>
+                      <% } else { %>
+                      <form>
+                        <button type="submit" disabled class="opacity-75 button button-add-to-cart mb-3">Add
+                          to
+                          cart</button>
+                      </form>
+                      <% } %>
+                      <% if (!inWishlist) { %>
+                      <form class="d-inline" action="/products/<%= product.id %>/wishlist" method="POST">
+                        <button aria-label="Add To Wishlist"
+                          class="action-btn hover-up text-primary border-0 p-2 rounded-4 ms-3 mb-3 bg-transparent"><i
+                            class="fi-rs-heart"></i></button>
+                      </form>
+                      <% } %>
+                    </div>
+                    <div class="d-flex">
+                      <form action="/rate/<%= product.id %>" method="POST">
+                        <input type="hidden" value="1" name="rate">
+                        <button class="bg-white border-0">
+                          <span
+                            class="fa fa-star fa-2x <%= (myRate && myRate.rate >= 1) ? 'text-primary': '' %>"></span>
+                        </button>
+                      </form>
+                      <form action="/rate/<%= product.id %>" method="POST">
+                        <input type="hidden" value="2" name="rate">
+                        <button class="bg-white border-0"><span
+                            class="fa fa-star fa-2x <%= (myRate && myRate.rate >= 2) ? 'text-primary': '' %>"></span>
+                        </button>
+                      </form>
+                      <form action="/rate/<%= product.id %>" method="POST">
+                        <input type="hidden" value="3" name="rate">
+                        <button class="bg-white border-0"><span
+                            class="fa fa-star fa-2x <%= (myRate && myRate.rate >= 3) ? 'text-primary': '' %>"></span>
+                        </button>
+                      </form>
+                      <form action="/rate/<%= product.id %>" method="POST">
+                        <input type="hidden" value="4" name="rate">
+                        <button class="bg-white border-0"><span
+                            class="fa fa-star fa-2x <%= (myRate && myRate.rate >= 4) ? 'text-primary': '' %>"></span>
+                        </button>
+                      </form>
+                      <form action="/rate/<%= product.id %>" method="POST">
+                        <input type="hidden" value="5" name="rate">
+                        <button class="bg-white border-0"><span
+                            class="fa fa-star fa-2x <%= (myRate && myRate.rate >= 5) ? 'text-primary': '' %>"></span>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-60">
+              <div class="col-12">
+                <h3 class="section-title style-1 mb-30">Related products</h3>
+              </div>
+              <div class="row product-grid-3">
+                <% for (let product of relatedProducts) { %>
+                <div class="col-lg-4 col-md-4 col-6 col-sm-6">
+                  <div class="product-cart-wrap mb-30">
+                    <div class="product-img-action-wrap">
+                      <div class="product-img product-img-zoom">
+                        <a href="/products/<%= product.id %>">
+                          <img class="default-img" src="<%= product.photos[0] %>" alt="<%= product.name %>">
+                          <img class="hover-img" src="<%= product.photos[1] %>" alt="<%= product.name %>">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="product-content-wrap">
+                      <div class="product-category">
+                        <a><%= product.categouryName %></a>
+                      </div>
+                      <div class="product-rate-cover text-end">
+                        <div class="product-rate d-inline-block">
+                          <div class="product-rating" style="width:<%= product.rate / 5 * 100 %>%">
+                          </div>
+                        </div>
+                      </div>
+                      <h2><a href="/products/<%= product.id %>"><%= product.description %></a></h2>
+                      <% if (product.sale) { %>
+                      <div class="rating-result" title="<%= product.sale %>">
+                        <span>
+                          <span><%= product.sale %></span>
+                        </span>
+                      </div>
+                      <% } %>
+                      <div class="product-price">
+                        <span>$<%= product.price - product.sale * product.price %></span>
+                        <% if (product.sale) { %>
+                        <span class="old-price">$<%= product.price %></span>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="/assets/js/products.js"></script>

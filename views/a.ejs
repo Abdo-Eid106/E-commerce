@@ -1,0 +1,163 @@
+<main class="main">
+  <section class="mt-150 mb-50">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="shop-product-fillter">
+            <div class="totall-product">
+              <p> We found <strong class="text-brand"><%= count %></strong> items for you!</p>
+            </div>
+            <div class="sort-by-product-area">
+              <div class="sort-by-cover mr-10">
+                <div class="sort-by-product-wrap">
+                  <div class="sort-by">
+                    <span><i class="fi-rs-apps"></i>page size:</span>
+                  </div>
+                  <div class="sort-by-dropdown-wrap">
+                    <span> <%= query.limit %> <i class="fi-rs-angle-small-down"></i></span>
+                  </div>
+                </div>
+                <div class="sort-by-dropdown">
+                  <ul>
+                    <li><a class="<%= (query.limit == 9) ? 'active': '' %>"
+                        href="<%= path %>?<%= getQuery({ limit: 9 }) %>">9</a>
+                    </li>
+                    <li><a class="<%= (query.limit == 12) ? 'active': '' %>"
+                        href="<%= path %>?<%= getQuery({ limit: 12 }) %>">12</a>
+                    </li>
+                    <li><a class="<%= (query.limit == 15) ? 'active': '' %>"
+                        href="<%= path %>?<%= getQuery({ limit: 15 }) %>">15</a></li>
+                    <li><a class="<%= (query.limit == 18) ? 'active': '' %>"
+                        href="<%= path %>?<%= getQuery({ limit: 18 }) %>">18</a></li>
+                    <li><a class="<%= (query.limit == 21) ? 'active': '' %>"
+                        href="<%= path %>?<%= getQuery({ limit: 21 }) %>">21</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="sort-by-cover">
+                <div class="sort-by-product-wrap">
+                  <div class="sort-by">
+                    <span><i class="fi-rs-apps-sort"></i>Sort by:</span> </div>
+                  <div class="sort-by-dropdown-wrap">
+                    <span> <%= query.sort %> <i class="fi-rs-angle-small-down"></i></span>
+                  </div>
+                </div>
+                <div class="sort-by-dropdown">
+                  <ul>
+                    <li><a href="<%= path %>?<%= getQuery({ sort: 'price-low-to-high' }) %>">Price: Low to High</a></li>
+                    <li><a href="<%= path %>?<%= getQuery({ sort: 'price-high-to-low' }) %>">Price: High to Low</a></li>
+                    <li><a href="<%= path %>?<%= getQuery({ sort: 'rate-low-to-high' }) %>">Avg. Rating low to high</a></li>
+                    <li><a href="<%= path %>?<%= getQuery({ sort: 'rate-high-to-low' }) %>">Avg. Rating high to low</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row product-grid-3">
+            <% for (let product of products) { %>
+            <div class="col-lg-4 col-md-4 col-6 col-sm-6">
+              <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                  <div class="product-img product-img-zoom">
+                    <a href="/products/<%= product.id %>">
+                      <img class="default-img" src="<%= product.photos[0] %>" alt="<%= product.name %>">
+                      <img class="hover-img" src="<%= product.photos[0] %>" alt="<%= product.name %>">
+                    </a>
+                  </div>
+                </div>
+                <div class="product-content-wrap">
+                  <div class="product-category">
+                    <a><%= product.categouryName %></a>
+                  </div>
+                  <div class="product-rate-cover text-end">
+                    <div class="product-rate d-inline-block">
+                      <div class="product-rating" style="width:<%= product.rate / 5 * 100 %>%">
+                      </div>
+                    </div>
+                  </div>
+                  <h2><a href="/products/<%= product.id %>"><%= product.description %></a></h2>
+                  <% if (product.sale) { %>
+                  <div class="rating-result" title="<%= product.sale %>">
+                    <span>
+                      <span><%= product.sale %></span>
+                    </span>
+                  </div>
+                  <% } %>
+                  <div class="product-price">
+                    <span>$<%= product.price - product.sale * product.price %></span>
+                    <% if (product.sale) { %>
+                    <span class="old-price">$<%= product.price %></span>
+                    <% } %>
+                  </div>
+                  <% if (path == '/shop') { %>
+                  <div class="product-action-1 show">
+                    <% if (!cartProductsIds.has(product.id)) { %>
+                    <form class="d-inline" action="/products/<%= product.id %>/cart" method="POST">
+                      <button aria-label="Add To Cart" class="action-btn hover-up text-primary"><i
+                          class="fi-rs-shopping-bag-add"></i></button>
+                    </form>
+                    <% } %>
+                    <% if (!wishlistProductsIds.has(product.id)) { %>
+                    <form class="d-inline" action="/products/<%= product.id %>/wishlist" method="POST">
+                      <button aria-label="Add To Wishlist" class="action-btn hover-up text-primary"><i
+                          class="fi-rs-heart"></i></button>
+                    </form>
+                    <% } %>
+                  </div>
+                  <% } else {%>
+                  <div class="product-action-1 show">
+                  <form action="/products/<%= product.id %>/delete" method="POST" class="d-inline">
+                    <button type="submit" aria-label="Delete Product" class="text-primary hover-up p-2 btn position-relative"><i
+                        class="fi-rs-trash position-absolute" style="left: 11px; top: 13px;"></i></button>
+                  </form>
+                  <a class="btn hover-up text-light border-0 p-1 rounded-1 px-2 pb-2 pt-1 ms-3 bg-primary"
+                    href="/edit-product/<%= product.id %>">Edit</a>
+                </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <% } %>
+          </div>
+          <!--pagination-->
+          <%- include('./partials/pagination', { page, pages, getQuery }) %>
+        </div>
+        <div class="col-lg-3 primary-sidebar sticky-sidebar">
+          <div class="row">
+            <div class="col-lg-12 col-mg-6"></div>
+            <div class="col-lg-12 col-mg-6"></div>
+          </div>
+          <div class="widget-category mb-30">
+            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+            <ul class="categories">
+              <% for (let categoury of categouries) { %>
+              <li>
+                <button class="categoury border-0 bg-transparent"
+                  data-categouryId="<%= categoury.id %>"><%= categoury.name %>
+                </button>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+          <!-- Fillter By Price -->
+          <div class="sidebar-widget price_range range mb-30">
+            <div class="widget-header position-relative mb-20 pb-10">
+              <h5 class="widget-title mb-10">Filter by price</h5>
+              <div class="bt-1 border-color-1"></div>
+            </div>
+            <div class="container d-flex">
+              <input type="text" class="low-price me-3 mb-3" name="low price" value="<%= query.lowPrice %>">
+              <input type="text" class="high-price mb-3" name="high price" value="<%= query.highPrice %>">
+            </div>
+            <button id='submitButton' class="btn btn-sm btn-default bg-primary text-light ms-5"><i
+                class="fi-rs-filter mr-5"></i>
+              Fillter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="/assets/js/filter.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/categoury.js"></script>

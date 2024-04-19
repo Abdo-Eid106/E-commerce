@@ -1,0 +1,72 @@
+<section class="pt-150 pb-150">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 m-auto">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10">
+              <div class="padding_eight_all bg-white">
+                <div class="heading_s1">
+                  <h3 class="mb-30 text-primary">Create an Account</h3>
+                </div>
+                <form method="post">
+                  <div class="form-group">
+                    <input type="text" required="" name="firstname"
+                      value="<%= (typeof errors != 'undefined') ? attrs.firstname: '' %>" placeholder="first name">
+                    <% if (typeof errors != 'undefined' && typeof errors.firstname != 'undefined') { %>
+                    <ul class="list-unstyled">
+                      <% for (let err of errors.firstname) { %>
+                      <li class="text-secondary ms-2"><%= err %></li>
+                      <% } %>
+                    </ul>
+                    <% } %>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" required="" name="lastname"
+                      value="<%= (typeof errors != 'undefined') ? attrs.lastname: '' %>" placeholder="last name">
+                    <% if (typeof errors != 'undefined' && typeof errors.lastname != 'undefined') { %>
+                    <ul class="list-unstyled">
+                      <% for (let err of errors.lastname) { %>
+                      <li class="text-secondary ms-2"><%= err %></li>
+                      <% } %>
+                    </ul>
+                    <% } %>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" required="" name="email"
+                      value="<%= (typeof errors != 'undefined') ? attrs.email: '' %>" placeholder="Email">
+                    <% if (typeof errors != 'undefined' && typeof errors.email != 'undefined') { %>
+                    <ul class="list-unstyled">
+                      <% for (let err of errors.email) { %>
+                      <li class="text-secondary ms-2"><%= err %></li>
+                      <% } %>
+                    </ul>
+                    <% } %>
+                  </div>
+                  <div class="form-group">
+                    <input required="" type="password" name="password"
+                      value="<%= (typeof errors != 'undefined') ? attrs.password: '' %>" placeholder="Password">
+                    <% if (typeof errors != 'undefined' && typeof errors.password != 'undefined') { %>
+                    <ul class="list-unstyled">
+                      <% for (let err of errors.password) { %>
+                      <li class="text-secondary ms-2"><%= err %></li>
+                      <% } %>
+                    </ul>
+                    <% } %>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Signup</button>
+                  </div>
+                </form>
+                <div class="text-muted text-center">Already have an account? <a href="#">Log in now</a></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <img src="assets/imgs/login.png">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+<main class="main">
+  <section class="mt-120 mb-50">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table shopping-summery text-center clean">
+              <thead>
+                <tr class="main-heading">
+                  <th scope="col">Image</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let wishlistProduct of wishlistProducts) { %>
+                <tr>
+                  <td class="image product-thumbnail"><img src="<%= wishlistProduct.product.photos[0] %>" alt="#"></td>
+                  <td class="product-des product-name">
+                    <h5 class="product-name"><a class="btn text-primary fw-bold"
+                        href="/products/<%= wishlistProduct.product.id %>">
+                        <%= wishlistProduct.product.name %>
+                      </a>
+                    </h5>
+                    <p class="font-xs"><%= wishlistProduct.product.description %>
+                    </p>
+                  </td>
+                  <td class="price fw-bold" data-title="Price"><span>$<%= wishlistProduct.product.price %>
+                    </span>
+                  </td>
+                  <form action="/products/<%= wishlistProduct.productId %>/wishlist" method="POST">
+                    <td class="action" data-title="Remove"><button type="submit" class="text-light p-3 btn"><i
+                          class="fi-rs-trash"></i></button>
+                    </td>
+                  </form>
+                </tr>
+                <% } %>
+                <% if (wishlistProducts.length) { %>
+                <tr>
+                  <td colspan="6" class="text-end">
+                    <form action="/wishlist/clear" method="POST">
+                      <button type="submit" class="text-light btn"> <i class="fi-rs-cross-small"></i> Clear
+                        Wishlist</button>
+                    </form>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

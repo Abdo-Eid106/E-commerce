@@ -1,0 +1,65 @@
+<main class="main">
+  <div class="container-fluid overflow-hidden">
+    <div class="row vh-100 overflow-auto">
+      <div class="col d-flex flex-column h-sm-100 mt-50">
+        <div class="col pt-4">
+          <% errs = (typeof errors != 'undefined') %>
+          <form class="p-5" enctype="multipart/form-data" method="POST" action="/products/<%= product.id %>/edit">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" name="name" value="<%= (typeof name != 'undefined') ? name: product.name %>" aria-describedby="emailHelp"
+                placeholder="Enter email">
+              <% if (errs && typeof errors.name != 'undefined') { %>
+              <% for (let err of errors.name) { %>
+              <p id="emailHelp" class="form-text text-muted"><%= err %></p>
+              <% } } %>
+            </div>
+            <div class="form-group">
+              <label>Price</label>
+              <input type="text" class="form-control" name="price" value="<%= (typeof price != 'undefined') ? price: product.price %>" placeholder="price">
+              <% if (errs && typeof errors.price != 'undefined') { %>
+                <% for (let err of errors.price) { %>
+                <p id="emailHelp" class="form-text text-muted"><%= err %></p>
+                <% } } %>
+            </div>
+            <div class="form-group">
+              <label>description</label>
+              <input type="text" class="form-control" name="description" value="<%= (typeof description != 'undefined') ? description: product.description %>" placeholder="description">
+              <% if (errs && typeof errors.description != 'undefined') { %>
+                <% for (let err of errors.description) { %>
+                <p id="emailHelp" class="form-text text-muted"><%= err %></p>
+                <% } } %>
+            </div>
+            <div class="form-group">
+              <label>photo</label>
+              <input type="file" class="form-control" name="photos" value="<%= (typeof photos != 'undefined') ? photos: ''%>">
+              <% if (errs && typeof errors.photos != 'undefined') { %>
+                <% for (let err of errors.photos) { %>
+                <p id="emailHelp" class="form-text text-muted"><%= err %></p>
+                <% } } %>
+            </div>
+            <div class="form-group">
+              <label>categoury</label>
+              <select class="form-select" name="categouryId">
+                <% for (let i = 0; i < categouries.length; ++i) { %>
+                <option <% if (categouries[i].id == product.categouryId) { %> selected <% } %> value="<%= categouries[i].id %>"><%= categouries[i].name %></option>
+                <% } %>
+              </select>
+            </div>
+            <% if (brands.length) { %>
+            <div class="form-group">
+              <label>brand</label>
+              <select class="form-select" name="brandId">
+                <% for (let i = 0; i < brands.length; ++i) { %>
+                <option <% if (brands[i].id == product.brandId) { %> selected <% } %> value="<%= brands[i].id %>"><%= brands[i].name %></option>
+                <% } %>
+              </select>
+            </div>
+            <% } %>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
